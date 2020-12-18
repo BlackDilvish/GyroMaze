@@ -1,0 +1,14 @@
+.\objects\graphics.o: graphics.c
+.\objects\graphics.o: graphics.h
+.\objects\graphics.o: C:\Keil_v5\ARM\PACK\Keil\LPC1700_DFP\2.6.1\Device\Include\LPC17xx.h
+.\objects\graphics.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include\core_cm3.h
+.\objects\graphics.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\graphics.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_version.h
+.\objects\graphics.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_compiler.h
+.\objects\graphics.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_armcc.h
+.\objects\graphics.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include\mpu_armv7.h
+.\objects\graphics.o: C:\Keil_v5\ARM\PACK\Keil\LPC1700_DFP\2.6.1\Device\Include\system_LPC17xx.h
+.\objects\graphics.o: lcd_lib/Open1768_LCD.h
+.\objects\graphics.o: lcd_lib/LCD_ILI9325.h
+.\objects\graphics.o: lcd_lib/asciiLib.h
+.\objects\graphics.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
