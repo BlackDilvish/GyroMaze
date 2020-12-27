@@ -35,7 +35,7 @@ void I2CInit()
 	LPC_I2C0->I2SCLH = 60; //100kHz from 12MHz
 	LPC_I2C0->I2SCLL = 60; //100kHz from 12MHz	  
 
-	LPC_I2C0->I2CONCLR = I2CONCLR_AAC | I2CONCLR_SIC | I2CONCLR_STAC | I2CONCLR_I2ENC;           
+	LPC_I2C0->I2CONCLR = 0x04 | 0x08 | 0x20 | 0x40;           
 	 
 	NVIC_EnableIRQ(I2C0_IRQn);   
   

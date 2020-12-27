@@ -5,33 +5,33 @@ void initGyro()
 {
 	uint8_t data[2] = {0x20, 0x0F};
 	startMasterTransmit(data, 2);
-	//wait => while(!(LPC_I2C0->I2CONSET & (1<<4))); ???
+	I2C_WAIT;
 	
 	data = {0x21, 0x00};
 	startMasterTransmit(data, 2);
-	//wait
+	I2C_WAIT;
 	
 	data = {0x22, 0x08};
 	startMasterTransmit(data, 2);
-	//wait
+	I2C_WAIT;
 	
 	data = {0x23, 0x00};
 	startMasterTransmit(data, 2);
-	//wait
+	I2C_WAIT;
 	
 	data = {0x24, 0x00};
 	startMasterTransmit(data, 2);
-	//wait
+	I2C_WAIT;
 }
 
 void getData(Coordinates* coords)
 {
 	uint8_t addr[1] = {0xA8};
 	startMasterTransmit(addr, 1);
-	//wait
+	I2C_WAIT;
 	
 	startMasterReceive(6);
-	//wait
+	I2C_WAIT;
 	
 	uint16_t* data = (uint16_t*) getReceivedData();
 	

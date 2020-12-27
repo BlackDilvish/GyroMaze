@@ -11,6 +11,8 @@
 #define DATA_ACK					4 
 #define DATA_NACK					5 
 
+#define I2C_WAIT while(!(LPC_I2C0->I2CONSET & (1<<3)))
+
 void I2CInit(); 
 bool I2CStart(); 
 void startMasterTransmit(uint8_t* data, uint32_t length);
