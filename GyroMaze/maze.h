@@ -72,7 +72,7 @@ int getNeighborIndex(int* possibleIndexes, int moduloValue);
 void swapArrayElements(int* arr, int index1, int index2);
 
 //dosc istotna funkcja, wykorzystuje generator pseudolosowy (ale nie rand) silnie oparty co do wyboru wartosci na generatorze
-//ze statystyki z drugiego semestru od Pana Gołaszewskiego
+//ze statystyki z drugiego semestru z labow
 int generateRandomValue();
 //czesc zadan bezposrednio zwiazanych z wpisywaniem wartości ścianek z generateMaze trafia do tej funkcji
 //jest wywolywana w generateMaze
