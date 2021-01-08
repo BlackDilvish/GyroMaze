@@ -21,24 +21,123 @@ Target DLL:      UL2CM3.DLL V1.162.7.0
 Dialog DLL:      TCM.DLL V1.36.1.0
  
 <h2>Project:</h2>
-C:\Users\8naleznik\Desktop\proj\proj.uvprojx
-Project File Date:  12/11/2020
+C:\Users\8naleznik\Desktop\proj\GyroMaze\GyroMaze\proj.uvprojx
+Project File Date:  01/08/2021
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'Target 1'
-compiling LCD_ILI9325.c...
 compiling maze.c...
-compiling main.c...
+maze.h(76): warning:  #1295-D: Deprecated declaration generateRandomValue - give arg types
+  int generateRandomValue();
+maze.c(216): warning:  #175-D: subscript out of range
+      x[2] = x[3];
+maze.c(217): warning:  #175-D: subscript out of range
+      x[3] = x_i;
+maze.c: 3 warnings, 0 errors
+compiling LCD_ILI9325.c...
 compiling Open1768_LCD.c...
 compiling graphics.c...
-assembling startup_LPC17xx.s...
 compiling asciiLib.c...
+compiling main.c...
+maze.h(76): warning:  #1295-D: Deprecated declaration generateRandomValue - give arg types
+  int generateRandomValue();
+i2c.h(21): warning:  #1295-D: Deprecated declaration getIsReady - give arg types
+  int getIsReady();
+i2c.h(23): warning:  #1295-D: Deprecated declaration I2CInit - give arg types
+  void I2CInit(); 
+i2c.h(24): warning:  #1295-D: Deprecated declaration I2CStart - give arg types
+  uint8_t I2CStart(); 
+i2c.h(27): warning:  #1295-D: Deprecated declaration I2C0_IRQHandler - give arg types
+  void I2C0_IRQHandler(); 
+i2c.h(28): warning:  #1295-D: Deprecated declaration getReceivedData - give arg types
+  volatile uint8_t* getReceivedData();
+i2c.h(29): warning:  #1295-D: Deprecated declaration I2CStop - give arg types
+  void I2CStop(); 
+i2c.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+uart.h(4): warning:  #1295-D: Deprecated declaration isQueueFull - give arg types
+  bool isQueueFull();
+uart.h(5): warning:  #1295-D: Deprecated declaration isReceiverReady - give arg types
+  bool isReceiverReady();
+uart.h(7): warning:  #1295-D: Deprecated declaration initUart - give arg types
+  void initUart();
+uart.h(8): warning:  #1295-D: Deprecated declaration initTimer0 - give arg types
+  void initTimer0();
+uart.h(9): warning:  #1295-D: Deprecated declaration TIMER0_IRQHandler - give arg types
+  void TIMER0_IRQHandler();
+uart.h(10): warning:  #1295-D: Deprecated declaration initRTC - give arg types
+  void initRTC();
+uart.h(11): warning:  #1295-D: Deprecated declaration RTC_IRQHandler - give arg types
+  void RTC_IRQHandler();
+uart.h(13): warning:  #1-D: last line of file ends without a newline
+  #endif
+gyro.h(15): warning:  #1295-D: Deprecated declaration initGyro - give arg types
+  void initGyro();
+gyro.h(18): warning:  #1-D: last line of file ends without a newline
+  #endif
+main.c: 18 warnings, 0 errors
+assembling startup_LPC17xx.s...
+compiling gyro.c...
+i2c.h(21): warning:  #1295-D: Deprecated declaration getIsReady - give arg types
+  int getIsReady();
+i2c.h(23): warning:  #1295-D: Deprecated declaration I2CInit - give arg types
+  void I2CInit(); 
+i2c.h(24): warning:  #1295-D: Deprecated declaration I2CStart - give arg types
+  uint8_t I2CStart(); 
+i2c.h(27): warning:  #1295-D: Deprecated declaration I2C0_IRQHandler - give arg types
+  void I2C0_IRQHandler(); 
+i2c.h(28): warning:  #1295-D: Deprecated declaration getReceivedData - give arg types
+  volatile uint8_t* getReceivedData();
+i2c.h(29): warning:  #1295-D: Deprecated declaration I2CStop - give arg types
+  void I2CStop(); 
+i2c.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+gyro.h(15): warning:  #1295-D: Deprecated declaration initGyro - give arg types
+  void initGyro();
+gyro.h(18): warning:  #1-D: last line of file ends without a newline
+  #endif
+gyro.c: 9 warnings, 0 errors
+compiling uart.c...
 compiling PIN_LPC17xx.c...
+compiling i2c.c...
+i2c.h(21): warning:  #1295-D: Deprecated declaration getIsReady - give arg types
+  int getIsReady();
+i2c.h(23): warning:  #1295-D: Deprecated declaration I2CInit - give arg types
+  void I2CInit(); 
+i2c.h(24): warning:  #1295-D: Deprecated declaration I2CStart - give arg types
+  uint8_t I2CStart(); 
+i2c.h(27): warning:  #1295-D: Deprecated declaration I2C0_IRQHandler - give arg types
+  void I2C0_IRQHandler(); 
+i2c.h(28): warning:  #1295-D: Deprecated declaration getReceivedData - give arg types
+  volatile uint8_t* getReceivedData();
+i2c.h(29): warning:  #1295-D: Deprecated declaration I2CStop - give arg types
+  void I2CStop(); 
+i2c.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+uart.h(4): warning:  #1295-D: Deprecated declaration isQueueFull - give arg types
+  bool isQueueFull();
+uart.h(5): warning:  #1295-D: Deprecated declaration isReceiverReady - give arg types
+  bool isReceiverReady();
+uart.h(7): warning:  #1295-D: Deprecated declaration initUart - give arg types
+  void initUart();
+uart.h(8): warning:  #1295-D: Deprecated declaration initTimer0 - give arg types
+  void initTimer0();
+uart.h(9): warning:  #1295-D: Deprecated declaration TIMER0_IRQHandler - give arg types
+  void TIMER0_IRQHandler();
+uart.h(10): warning:  #1295-D: Deprecated declaration initRTC - give arg types
+  void initRTC();
+uart.h(11): warning:  #1295-D: Deprecated declaration RTC_IRQHandler - give arg types
+  void RTC_IRQHandler();
+uart.h(13): warning:  #1-D: last line of file ends without a newline
+  #endif
+i2c.c(232): warning:  #1-D: last line of file ends without a newline
+  }   
+i2c.c: 16 warnings, 0 errors
 compiling system_LPC17xx.c...
 linking...
-Program Size: Code=1664 RO-data=236 RW-data=0 ZI-data=3680  
-".\Objects\proj.axf" - 0 Error(s), 0 Warning(s).
+Program Size: Code=4324 RO-data=3292 RW-data=28 ZI-data=676  
+".\Objects\proj.axf" - 0 Error(s), 46 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -71,11 +170,11 @@ Package Vendor: Keil
       Source file:   RTE_Driver\PIN_LPC17xx.c
 
    * Component: Keil::Device:Startup:1.0.0
-      Include file:  Device\Include\LPC17xx.h
-      Source file:   Device\Source\ARM\startup_LPC17xx.s
       Include file:  RTE_Driver\Config\RTE_Device.h
+      Source file:   Device\Source\ARM\startup_LPC17xx.s
+      Include file:  Device\Include\LPC17xx.h
       Source file:   Device\Source\system_LPC17xx.c
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

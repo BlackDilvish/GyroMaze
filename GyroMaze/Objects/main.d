@@ -9,10 +9,13 @@
 .\objects\main.o: C:\Keil_v5\ARM\PACK\Keil\LPC1700_DFP\2.6.1\Device\Include\system_LPC17xx.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\Keil\LPC1700_DFP\2.6.1\RTE_Driver\PIN_LPC17xx.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: graphics.h
 .\objects\main.o: lcd_lib/Open1768_LCD.h
 .\objects\main.o: lcd_lib/LCD_ILI9325.h
 .\objects\main.o: lcd_lib/asciiLib.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\main.o: maze.h
-.\objects\main.o: lcd_lib/LCD_ILI9325.h
+.\objects\main.o: i2c.h
+.\objects\main.o: uart.h
+.\objects\main.o: gyro.h

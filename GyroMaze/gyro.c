@@ -1,25 +1,33 @@
 #include "i2c.h"
 #include "gyro.h"
 
+#include "graphics.h"
 void initGyro()
 {
 	uint8_t data[2] = {0x20, 0x0F};
 	startMasterTransmit(data, 2);
+	drawString(70, 40, "xd 1.2", LCDBlack);
+
 	I2C_WAIT;
+	drawString(70, 60, "xd 1.3", LCDBlack);
 	
-	data = {0x21, 0x00};
+	data[0] = 0x21;
+	data[1] = 0x00;
 	startMasterTransmit(data, 2);
 	I2C_WAIT;
 	
-	data = {0x22, 0x08};
+	data[0] = 0x22;
+	data[1] = 0x08;
 	startMasterTransmit(data, 2);
 	I2C_WAIT;
 	
-	data = {0x23, 0x00};
+	data[0] = 0x23;
+	data[1] = 0x00;
 	startMasterTransmit(data, 2);
 	I2C_WAIT;
 	
-	data = {0x24, 0x00};
+	data[0] = 0x24;
+	data[1] = 0x00;
 	startMasterTransmit(data, 2);
 	I2C_WAIT;
 }
@@ -38,5 +46,4 @@ void getData(Coordinates* coords)
 	coords->x = data[0];
 	coords->y = data[1];
 	coords->z = data[2];
-	return coords;
 }
