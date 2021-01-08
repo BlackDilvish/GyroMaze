@@ -2,10 +2,6 @@
 #include "stdio.h"
    
 int IS_READY = 1;
-int getIsReady()
-{
-	return IS_READY;
-}
 	 
 volatile uint32_t I2CMasterState = I2C_IDLE;    
    
@@ -98,123 +94,123 @@ void I2C0_IRQHandler()
   {   
 	case 0x00:
 		writeString("0x00");
-	LPC_I2C0->I2CONSET |= 0x14;
-	IS_READY = 1;
-	LPC_I2C0->I2CONCLR |= 0x08;
-	break;
+		LPC_I2C0->I2CONSET |= 0x14;
+		IS_READY = 1;
+		LPC_I2C0->I2CONCLR |= 0x08;
+		break;
 	
     case 0x08:          // Start wyslany 
-			writeString("0x08");
+		writeString("0x08");
 		IS_READY = 0;
-    LPC_I2C0->I2DAT = SLA_INIT;   //SLA + W|R 1101001b + 0|1
-	LPC_I2C0->I2CONSET = 0x04;
- 	LPC_I2C0->I2CONCLR = 0x08 | 1<<5; 
-    I2CMasterState = I2C_STARTED;   
-	WrIndex = 0;
-    break;   
+		LPC_I2C0->I2DAT = SLA_INIT;   //SLA + W|R 1101001b + 0|1
+		LPC_I2C0->I2CONSET = 0x04;
+		LPC_I2C0->I2CONCLR = 0x08 | 1<<5; 
+		I2CMasterState = I2C_STARTED;   
+		WrIndex = 0;
+		break;   
        
     case 0x10:          // Powtorzony start
-			writeString("0x10");
-	LPC_I2C0->I2DAT = SLA_INIT;   //SLA + W|R 1101001b + 0|1
-    LPC_I2C0->I2CONSET |= 0x04;
- 	LPC_I2C0->I2CONCLR = 0x08; 
-    I2CMasterState = I2C_RESTARTED;   
-	WrIndex = 0;
-    break;   
+		writeString("0x10");
+		LPC_I2C0->I2DAT = SLA_INIT;   //SLA + W|R 1101001b + 0|1
+		LPC_I2C0->I2CONSET |= 0x04;
+		LPC_I2C0->I2CONCLR = 0x08; 
+		I2CMasterState = I2C_RESTARTED;   
+		WrIndex = 0;
+		break;   
        
     case 0x18:          // SLA+W wyslane, przychodzi ACK 
-			writeString("0x18");
-	LPC_I2C0->I2DAT = I2CMasterTransmitBuffer[WrIndex];
-	LPC_I2C0->I2CONSET |= 0x04;
- 	LPC_I2C0->I2CONCLR = 0x08; 
-	WrIndex++;   
-	I2CMasterState = DATA_ACK;     
-    break;   
+		writeString("0x18");
+		LPC_I2C0->I2DAT = I2CMasterTransmitBuffer[WrIndex];
+		LPC_I2C0->I2CONSET |= 0x04;
+		LPC_I2C0->I2CONCLR = 0x08; 
+		WrIndex++;   
+		I2CMasterState = DATA_ACK;     
+		break;   
    
     case 0x28:  // Dane z I2DAT wyslane, przychodzi ACK 
 		writeString("0x28");
 		char buff[50];
 		sprintf(buff, "WrIndex: %d, Length: %d, Warunek lajla: %d", WrIndex, I2CTransmitLength, LPC_I2C0->I2CONSET & (1<<4));
-    writeString(buff);
+		writeString(buff);
 		
 		if ( WrIndex != I2CTransmitLength )   
-    {      
-		LPC_I2C0->I2DAT = I2CMasterTransmitBuffer[WrIndex];
-		LPC_I2C0->I2CONSET = 0x04;
-		LPC_I2C0->I2CONCLR = 0x08;
-		WrIndex++;
-		I2CMasterState = DATA_ACK; 
-    }   
-    else   
-    {   
-		LPC_I2C0->I2CONSET = 0x14;
+		{      
+			LPC_I2C0->I2DAT = I2CMasterTransmitBuffer[WrIndex];
+			LPC_I2C0->I2CONSET = 0x04;
+			LPC_I2C0->I2CONCLR = 0x08;
+			WrIndex++;
+			I2CMasterState = DATA_ACK; 
+		}   
+		else   
+		{   
+			LPC_I2C0->I2CONSET = 0x14;
 			IS_READY = 1;
-		LPC_I2C0->I2CONCLR = 0x08;
-        I2CMasterState = DATA_NACK;   
-    }   
+			LPC_I2C0->I2CONCLR = 0x08;
+			I2CMasterState = DATA_NACK;   
+		}   
 		char buff2[50];
 		sprintf(buff2, "WrIndex: %d, Length: %d, Warunek lajla: %d", WrIndex, I2CTransmitLength, LPC_I2C0->I2CONSET & (1<<4));
-    writeString(buff2);
-    break;   
+		writeString(buff2);
+		break;   
 	
 	case 0x30:
 		writeString("0x30");
-	LPC_I2C0->I2CONSET = 0x14;
-	IS_READY = 1;
-	LPC_I2C0->I2CONCLR = 0x08;
-	I2CMasterState = DATA_NACK; 
-	break;
+		LPC_I2C0->I2CONSET = 0x14;
+		IS_READY = 1;
+		LPC_I2C0->I2CONCLR = 0x08;
+		I2CMasterState = DATA_NACK; 
+		break;
 	
 	
 	//Master receiver mode
     case 0x40:   // SLA+R wyslane, przychodzi ACK 
-			writeString("0x40");
-    LPC_I2C0->I2CONSET = 0x04;
-    LPC_I2C0->I2CONCLR = 0x08;  
-	I2CMasterState = DATA_ACK; 	
-    break;   
+		writeString("0x40");
+		LPC_I2C0->I2CONSET = 0x04;
+		LPC_I2C0->I2CONCLR = 0x08;  
+		I2CMasterState = DATA_ACK; 	
+		break;   
        
     case 0x50:  // Dane z I2DAT otrzymane, przychodzi ACK  
-writeString("0x50");			
-    I2CMasterReceiveBuffer[RdIndex] = LPC_I2C0->I2DAT;    
-	RdIndex++;
-    if ( RdIndex != I2CReceiveLength )   
-    {    
-		LPC_I2C0->I2CONSET = 0x04;
-		LPC_I2C0->I2CONCLR = 0x08; 
-		I2CMasterState = DATA_ACK; 
-    }   
-    else   
-    {   
-		LPC_I2C0->I2CONCLR = 0x0C;
-		I2CMasterState = DATA_NACK;  
-    }   
-    break;
+		writeString("0x50");			
+		I2CMasterReceiveBuffer[RdIndex] = LPC_I2C0->I2DAT;    
+		RdIndex++;
+		if ( RdIndex != I2CReceiveLength )   
+		{    
+			LPC_I2C0->I2CONSET = 0x04;
+			LPC_I2C0->I2CONCLR = 0x08; 
+			I2CMasterState = DATA_ACK; 
+		}   
+		else   
+		{   
+			LPC_I2C0->I2CONCLR = 0x0C;
+			I2CMasterState = DATA_NACK;  
+		}   
+		break;
 
 	case 0x58:
 		writeString("0x58");
-	I2CMasterReceiveBuffer[RdIndex] = LPC_I2C0->I2DAT;
-	LPC_I2C0->I2CONSET = 0x14;
-	IS_READY = 1;
-	LPC_I2C0->I2CONCLR = 0x08;
-	I2CMasterState = DATA_NACK;  
-	break;
+		I2CMasterReceiveBuffer[RdIndex] = LPC_I2C0->I2DAT;
+		LPC_I2C0->I2CONSET = 0x14;
+		IS_READY = 1;
+		LPC_I2C0->I2CONCLR = 0x08;
+		I2CMasterState = DATA_NACK;  
+		break;
        
     case 0x20: 
     case 0x48: 
-writeString("0x20 albo 48");			
-    LPC_I2C0->I2CONSET = 0x14;
+		writeString("0x20 albo 48");			
+		LPC_I2C0->I2CONSET = 0x14;
 		IS_READY = 1;
-	LPC_I2C0->I2CONCLR = 0x8;	
-    I2CMasterState = DATA_NACK;   
-    break;   
+		LPC_I2C0->I2CONCLR = 0x8;	
+		I2CMasterState = DATA_NACK;   
+		break;   
        
     case 0x38: 
     default:   
-			writeString("0x38 def");
-    LPC_I2C0->I2CONSET = 0x24;
-	LPC_I2C0->I2CONCLR = 0x08;     
-    break;   
+		writeString("0x38 def");
+		LPC_I2C0->I2CONSET = 0x24;
+		LPC_I2C0->I2CONCLR = 0x08;     
+		break;   
   }   
 }   
 

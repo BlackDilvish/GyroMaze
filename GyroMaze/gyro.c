@@ -46,4 +46,11 @@ void getData(Coordinates* coords)
 	coords->x = data[0];
 	coords->y = data[1];
 	coords->z = data[2];
+	
+	/* druga_opcja
+	int8_t* data = (int8_t*) getReceivedData();
+	coords->x = data[1]<<8 | data[0];
+	coords->y = data[3]<<8 | data[2];
+	coords->z = data[5]<<8 | data[4];
+	*/
 }

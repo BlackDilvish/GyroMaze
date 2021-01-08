@@ -5,20 +5,19 @@
 #include "LPC17xx.h"
 #include "PIN_LPC17xx.h"
 
-#define BUFSIZE						0x20 
-#define MAX_TIMEOUT				0x00FFFFFF
+#define BUFSIZE				0x20 
+#define MAX_TIMEOUT			0x00FFFFFF
 
-#define I2C_IDLE						0 
-#define I2C_STARTED				1 
-#define I2C_RESTARTED			2 
+#define I2C_IDLE			0 
+#define I2C_STARTED			1 
+#define I2C_RESTARTED		2 
 #define I2C_REPEATED_START	3 
-#define DATA_ACK					4 
-#define DATA_NACK					5 
+#define DATA_ACK			4 
+#define DATA_NACK			5 
 
 #define I2C_WAIT while(IS_READY == 0)
 	
 extern int IS_READY;
-int getIsReady();
 
 void I2CInit(); 
 uint8_t I2CStart(); 
