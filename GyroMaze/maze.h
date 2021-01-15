@@ -35,11 +35,17 @@ typedef struct MazeStruct
     Stack* stack;
     Position* positions;
     Position* visitedPositions;
+    Position start;
+    Position destination;
 } Maze;
 
 //funkcje
 
 void clearCells(Cell* cells, int size); //ustawia 00 na sciankach
+Cell findCellByPosition(Maze* mazePtr, Position position);
+int hasRightBorder(Cell cell);
+int hasDownBorder(Cell cell);
+int notWithinBounds(int value, int max);
 
 void initPositions(Position* positions, int width, int height); //ustawia pozycje rosnaco od lewego gornego rogu, tj. na grafice
 
@@ -54,6 +60,8 @@ int getIndexFromPosition(Position position, int width, int height);
 Position getPositionFromIndex(int index, int width, int height);
 //tutaj coś w rodzaju pseudokonstruktora dla pozycji
 Position preparePosition(int x, int y);
+//operacje na pozycjach (wektorach)
+Position addPositions(Position first, Position second);
 
 //operacje na stosie:
 void initStack(Stack* stackPtr, Position* stackPositions, int size);
@@ -72,7 +80,7 @@ int getNeighborIndex(int* possibleIndexes, int moduloValue);
 void swapArrayElements(int* arr, int index1, int index2);
 
 //dosc istotna funkcja, wykorzystuje generator pseudolosowy (ale nie rand) silnie oparty co do wyboru wartosci na generatorze
-//ze statystyki z drugiego semestru z labow
+//ze statystyki z drugiego semestru od Pana Gołaszewskiego
 int generateRandomValue();
 //czesc zadan bezposrednio zwiazanych z wpisywaniem wartości ścianek z generateMaze trafia do tej funkcji
 //jest wywolywana w generateMaze

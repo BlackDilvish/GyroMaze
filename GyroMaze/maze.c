@@ -1,5 +1,7 @@
 #include "maze.h"
 
+int counter = 0;
+
 void clearCells(Cell* cells, int size)
 {
     for(int i = 0; i < size; ++i)
@@ -26,6 +28,7 @@ void initMaze(Maze* mazePtr, Cell* cells, Position* visitedPositions, Position* 
     mazePtr->stack = stack;
     mazePtr->positions = positions;
     mazePtr->visitedPositions = visitedPositions;
+    mazePtr->start = preparePosition(0, 0);
 }
 
 void generateMaze(Maze* mazePtr)
@@ -59,6 +62,11 @@ void generateMaze(Maze* mazePtr)
 
             do
             {
+                if(counter == 0)
+                {
+                    mazePtr->destination = getPositionFromIndex(currentIndex, mazePtr->width, mazePtr->height);
+                    counter = 1;
+                }
                 previousPosition = stackPop(mazePtr->stack);
                 int newIndex = getIndexFromPosition(previousPosition, mazePtr->width, mazePtr->height);
                 currentIndex = newIndex;
@@ -232,6 +240,8 @@ void setWalls(Maze* mazePtr, Position previousPosition, Position currentPosition
 {
     Position positionToSetWalls;
 
+    mazePtr->cells[0].walls = 0;
+
     if(previousPosition.x == currentPosition.x)
     {
         if(previousPosition.y < currentPosition.y)
@@ -251,4 +261,31 @@ void setWalls(Maze* mazePtr, Position previousPosition, Position currentPosition
         int index = getIndexFromPosition(positionToSetWalls, mazePtr->width, mazePtr->height);
         mazePtr->cells[index].walls += 1;
     }
+}
+
+Position addPositions(Position first, Position second)
+{
+    Position pos = preparePosition(first.x + second.x, first.y + second.y);
+    return pos;
+}
+
+Cell findCellByPosition(Maze* mazePtr, Position position)
+{
+    int index = getIndexFromPosition(position, mazePtr->width, mazePtr->height);
+    return mazePtr->cells[index];
+}
+
+int hasRightBorder(Cell cell)
+{
+    return (cell.walls & 1);
+}
+
+int hasDownBorder(Cell cell)
+{
+    return (cell.walls == 2 || cell.walls == 3); //pomyslec co sie tu dzieje
+}
+
+int notWithinBounds(int value, int max)
+{
+    return !(value >= 0 && value < max);
 }
