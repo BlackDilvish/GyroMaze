@@ -1,8 +1,8 @@
 #ifndef UART_H
 #define UART_H
 
-bool isQueueFull();
-bool isReceiverReady();
+int isQueueFull();
+int isReceiverReady();
 void writeString(const char* string);
 void initUart();
 void initTimer0();

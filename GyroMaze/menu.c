@@ -1,12 +1,14 @@
 #include "Board_Joystick.h"
 #include "graphics.h"
 #include "menu.h"
+#include "uart.h"
+#include <stdio.h>
 
-uint8_t appState = 0;
-uint8_t verticalKeyCounter = 0;
-uint8_t horizontalKeyCounter = 0;
-uint8_t maze_width = 0;
-uint8_t maze_height = 0;
+int8_t appState = 0;
+int8_t verticalKeyCounter = 0;
+int8_t horizontalKeyCounter = 0;
+int8_t maze_width = 0;
+int8_t maze_height = 0;
 
 void updateMainMenu(void)
 {
@@ -15,16 +17,19 @@ void updateMainMenu(void)
 		case JOYSTICK_UP:
 		verticalKeyCounter = 0;
 		drawMainMenu();
+		writeString("JOYSTICK_UP");
 		BUTTON_DELAY;
 		break;
 		
 		case JOYSTICK_DOWN:
 		verticalKeyCounter = 1;
 		drawMainMenu();
+		writeString("JOYSTICK_DOWN");
 		BUTTON_DELAY;
 		break;
 		
 		case JOYSTICK_CENTER:
+		writeString("JOYSTICK_CENTER");
 		if (verticalKeyCounter == 0)
 		{
 			appState = GAME_STATE;
@@ -47,6 +52,9 @@ void updateMainMenu(void)
 
 void updateSelectSize(void)
 {
+	char buffer[4];
+	sprintf(buffer, "%d vert", verticalKeyCounter);
+	writeString(buffer);
 	switch(Joystick_GetState())
 	{
 		case JOYSTICK_UP:
@@ -118,15 +126,16 @@ void drawMainMenu(void)
 
 void drawSelectSize(void)
 {
+	char buffer[16];
+	
 	switch(verticalKeyCounter)
 	{
 		case 0:
 		fillWindow(LCDWhite);
-		drawSquare(50, 50, 32, LCDYellow);
-		drawSquare(82, 50, 48, LCDBlue);
-		drawSquare(130, 50, 32, LCDBlue);
+		drawRectangle(50, 50, 8, 16, LCDYellow);
+		drawRectangle(58, 50, 24, 16, LCDBlue);
+		drawRectangle(82, 50, 8, 16, LCDBlue);
 		drawRectangle(100, 100, 40, 20, LCDBlue);
-		char buffer[16];
 		sprintf(buffer, "%d x %d", maze_width, maze_height);
 		drawString(50, 50, buffer, LCDBlack);
 		drawString(100, 100, "Wroc", LCDBlack);
@@ -134,11 +143,10 @@ void drawSelectSize(void)
 		
 		case 1:
 		fillWindow(LCDWhite);
-		drawSquare(50, 50, 32, LCDBlue);
-		drawSquare(82, 50, 48, LCDBlue);
-		drawSquare(130, 50, 32, LCDYellow);
+		drawRectangle(50, 50, 8, 16, LCDBlue);
+		drawRectangle(58, 50, 24, 16, LCDBlue);
+		drawRectangle(82, 50, 8, 16, LCDYellow);
 		drawRectangle(100, 100, 40, 20, LCDBlue);
-		char buffer[16];
 		sprintf(buffer, "%d x %d", maze_width, maze_height);
 		drawString(50, 50, buffer, LCDBlack);
 		drawString(100, 100, "Wroc", LCDBlack);
@@ -146,11 +154,10 @@ void drawSelectSize(void)
 
 		case 2:
 		fillWindow(LCDWhite);
-		drawSquare(50, 50, 32, LCDBlue);
-		drawSquare(82, 50, 48, LCDBlue);
-		drawSquare(130, 50, 32, LCDBlue);
+		drawRectangle(50, 50, 8, 16, LCDBlue);
+		drawRectangle(58, 50, 24, 16, LCDBlue);
+		drawRectangle(82, 50, 8, 16, LCDBlue);
 		drawRectangle(150, 100, 40, 20, LCDYellow);
-		char buffer[16];
 		sprintf(buffer, "%d x %d", maze_width, maze_height);
 		drawString(50, 50, buffer, LCDBlack);
 		drawString(100, 100, "Wroc", LCDBlack);

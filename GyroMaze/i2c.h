@@ -24,7 +24,7 @@ uint8_t I2CStart();
 void startMasterTransmit(uint8_t* data, uint32_t length);
 void startMasterReceive(uint32_t length);
 void I2C0_IRQHandler(); 
-volatile uint8_t* getReceivedData();
+volatile int8_t* getReceivedData();
 void I2CStop(); 
 
 #endif

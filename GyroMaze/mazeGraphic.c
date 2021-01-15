@@ -4,6 +4,8 @@ void drawMaze(Maze* mazePtr, int screenWidth, int screenHeight)
 {
     int currentWidth = 0;
     int currentHeight = 0;
+	
+		fillWindow(LCDBlack);
 
     int moveWidth = screenWidth / mazePtr->width; //chyba musi byc int
     int moveHeight = screenHeight / mazePtr->height; //chyba musi byc int
@@ -18,11 +20,11 @@ void drawMaze(Maze* mazePtr, int screenWidth, int screenHeight)
             currentWidth = i * moveWidth;
             currentHeight = j * moveHeight;
 
-            int wallNumber = mazePtr->cells[i].walls;
+            int wallNumber = mazePtr->cells[index].walls;
 
-            if(index == getIndexFromPosition(mazePtr->destination))
+            if(index == getIndexFromPosition(mazePtr->destination, mazePtr->width, mazePtr->height))
             {
-                drawRectangle(currentWidth + 1, currentHeight + 1, moveWidth - 1, moveHeight - 1, LCDRed) //rysujemy mete
+                drawRectangle(currentWidth + 1, currentHeight + 1, moveWidth - 1, moveHeight - 1, LCDRed); //rysujemy mete
             }
 
             switch(wallNumber)

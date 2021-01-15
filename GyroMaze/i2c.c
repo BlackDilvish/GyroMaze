@@ -1,12 +1,13 @@
 #include "i2c.h"
 #include "stdio.h"
+#include "uart.h"
    
 int IS_READY = 1;
 	 
 volatile uint32_t I2CMasterState = I2C_IDLE;    
    
 volatile uint8_t I2CMasterTransmitBuffer[BUFSIZE];   
-volatile uint8_t I2CMasterReceiveBuffer[BUFSIZE];   
+volatile int8_t I2CMasterReceiveBuffer[BUFSIZE];   
 volatile uint32_t I2CTransmitLength;   
 volatile uint32_t I2CReceiveLength; 
    
@@ -214,8 +215,20 @@ void I2C0_IRQHandler()
   }   
 }   
 
-volatile uint8_t* getReceivedData()
+volatile int8_t* getReceivedData()
 {
+	char buffer[40];
+	
+	for(int i = 0; i < 6; ++i)
+	{
+		sprintf(buffer, "%d", I2CMasterReceiveBuffer[i]);
+		writeString(buffer);
+	}
+	volatile int8_t* data = I2CMasterReceiveBuffer;
+
+	sprintf(buffer, "%d %d %d", data[1]<<8 | data[0], data[3]<<8 | data[2], data[5]<<8 | data[4]);
+	writeString(buffer);
+	
 	return I2CMasterReceiveBuffer;
 }
 

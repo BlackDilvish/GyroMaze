@@ -1,12 +1,12 @@
 #include "PIN_LPC17xx.h"
 #include "GPIO_LPC17xx.h"
 
-bool isQueueFull()
+int isQueueFull()
 {
 	return !(LPC_UART0->LSR & (1<<5));
 }
 
-bool isReceiverReady()
+int isReceiverReady()
 {
 	return (LPC_UART0->LSR & 1);
 }
