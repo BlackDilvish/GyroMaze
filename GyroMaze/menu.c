@@ -57,13 +57,13 @@ void updateSelectSize(void)
 	writeString(buffer);
 	switch(Joystick_GetState())
 	{
-		case JOYSTICK_UP:
+		case JOYSTICK_DOWN:
 		if (--verticalKeyCounter < 0) verticalKeyCounter = 0;
 		drawSelectSize();
 		BUTTON_DELAY;
 		break;
 		
-		case JOYSTICK_DOWN:
+		case JOYSTICK_UP:
 		if (++verticalKeyCounter > 30) verticalKeyCounter = 30;
 		drawSelectSize();
 		BUTTON_DELAY;
@@ -128,7 +128,7 @@ void drawSelectSize(void)
 {
 	char buffer[16];
 	
-	switch(verticalKeyCounter)
+	switch(horizontalKeyCounter)
 	{
 		case 0:
 		fillWindow(LCDWhite);
@@ -136,7 +136,7 @@ void drawSelectSize(void)
 		drawRectangle(58, 50, 24, 16, LCDBlue);
 		drawRectangle(82, 50, 8, 16, LCDBlue);
 		drawRectangle(100, 100, 40, 20, LCDBlue);
-		sprintf(buffer, "%d x %d", maze_width, maze_height);
+		sprintf(buffer, "%d x %d", verticalKeyCounter, maze_height);
 		drawString(50, 50, buffer, LCDBlack);
 		drawString(100, 100, "Wroc", LCDBlack);
 		break;
@@ -147,7 +147,7 @@ void drawSelectSize(void)
 		drawRectangle(58, 50, 24, 16, LCDBlue);
 		drawRectangle(82, 50, 8, 16, LCDYellow);
 		drawRectangle(100, 100, 40, 20, LCDBlue);
-		sprintf(buffer, "%d x %d", maze_width, maze_height);
+		sprintf(buffer, "%d x %d", maze_width, verticalKeyCounter);
 		drawString(50, 50, buffer, LCDBlack);
 		drawString(100, 100, "Wroc", LCDBlack);
 		break;
