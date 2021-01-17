@@ -6,6 +6,7 @@
 #define MAIN_MENU_STATE 0
 #define SELECT_SIZE_STATE 1
 #define GAME_STATE 2
+#define LEADERBOARD_STATE 3
 
 #define BUTTON_DELAY for(int i=0; i<500000; i++)
 
@@ -15,8 +16,10 @@ extern int8_t maze_height;
 
 void updateMainMenu(void);
 void updateSelectSize(void);
+void updateLeaderboard(void);
 
 void drawMainMenu(void);
 void drawSelectSize(void);
+void drawLeaderboard(void);
 
 #endif

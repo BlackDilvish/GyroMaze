@@ -23,6 +23,13 @@ Position positions[width * height];
 Position stackPositions[width * height];//ta tablica bedzie dzialac jak stos do zapamietywania ostatnio odwiedzonych pozycji
 Position visitedPositions[width * height];
 
+int RTCounter = 0;
+void RTC_IRQHandler()
+{
+	LPC_RTC->ILR = 1;
+	RTCounter++;
+}
+
 int main()
 {
 	Joystick_Initialize();
@@ -31,6 +38,12 @@ int main()
 	fillWindow(LCDWhite);
 	I2CInit();
 	initGyro();
+	
+	//init RTC
+	LPC_RTC->CCR = 1;
+	LPC_RTC->ILR = 1;
+	LPC_RTC->CIIR = 1;
+	NVIC_EnableIRQ(RTC_IRQn); //co sekunde
 	
 	writeString("asdasdsadasd");
 	
@@ -87,6 +100,7 @@ int main()
 			break;
 
 			case GAME_STATE:
+			RTCounter = 0;
 				drawMaze(mazePtr, 240, 320);
 				drawPlayer(playerPtr, 240, 320);
 			
@@ -130,6 +144,11 @@ int main()
 			writeString(buffer);
 			}
 			
+			break;
+			
+			case LEADERBOARD_STATE:
+			updateLeaderboard();
+			printf("LEADERBOARD_STATE\n");
 			break;
 
 			default:

@@ -15,14 +15,14 @@ void updateMainMenu(void)
 	switch(Joystick_GetState())
 	{
 		case JOYSTICK_UP:
-		verticalKeyCounter = 0;
+		if(--verticalKeyCounter < 0) verticalKeyCounter = 0;
 		drawMainMenu();
 		writeString("JOYSTICK_UP");
 		BUTTON_DELAY;
 		break;
 		
 		case JOYSTICK_DOWN:
-		verticalKeyCounter = 1;
+		if (++verticalKeyCounter > 2) verticalKeyCounter = 2;
 		drawMainMenu();
 		writeString("JOYSTICK_DOWN");
 		BUTTON_DELAY;
@@ -35,12 +35,17 @@ void updateMainMenu(void)
 			appState = GAME_STATE;
 			//draw maze
 		}
-		else
+		else if (verticalKeyCounter == 1)
 		{
 			verticalKeyCounter = 0;
 			horizontalKeyCounter = 0;
 			appState = SELECT_SIZE_STATE;
 			drawSelectSize();
+		}
+		else
+		{
+			appState = LEADERBOARD_STATE;
+			drawLeaderboard();
 		}
 		BUTTON_DELAY;
 		break;
@@ -52,7 +57,7 @@ void updateMainMenu(void)
 
 void updateSelectSize(void)
 {
-	char buffer[4];
+	char buffer[8];
 	sprintf(buffer, "%d vert", verticalKeyCounter);
 	writeString(buffer);
 	switch(Joystick_GetState())
@@ -99,6 +104,21 @@ void updateSelectSize(void)
 	}
 }
 
+void updateLeaderboard(void)
+{
+	switch (Joystick_GetState())
+	{
+	case JOYSTICK_CENTER:
+		appState = MAIN_MENU_STATE;
+		drawMainMenu();
+		BUTTON_DELAY;
+		break;
+
+	default:
+		break;
+	}
+}
+
 void drawMainMenu(void)
 {
 	switch(verticalKeyCounter)
@@ -107,16 +127,30 @@ void drawMainMenu(void)
 		fillWindow(LCDWhite);
 		drawRectangle(50, 50, 100, 30, LCDYellow);
 		drawRectangle(50, 100, 100, 30, LCDBlue);
+		drawRectangle(50, 150, 100, 30, LCDBlue);
 		drawString(50, 50, "Nowa gra", LCDBlack);
 		drawString(50, 100, "Zmien rozmiar", LCDBlack);
+		drawString(50, 150, "Najlepsze wyniki", LCDBlack);
 		break;
 		
 		case 1:
 		fillWindow(LCDWhite);
 		drawRectangle(50, 50, 100, 30, LCDBlue);
 		drawRectangle(50, 100, 100, 30, LCDYellow);
+		drawRectangle(50, 150, 100, 30, LCDBlue);
 		drawString(50, 50, "Nowa gra", LCDBlack);
 		drawString(50, 100, "Zmien rozmiar", LCDBlack);
+		drawString(50, 150, "Najlepsze wyniki", LCDBlack);
+		break;
+		
+		case 2:
+		fillWindow(LCDWhite);
+		drawRectangle(50, 50, 100, 30, LCDBlue);
+		drawRectangle(50, 100, 100, 30, LCDBlue);
+		drawRectangle(50, 150, 100, 30, LCDYellow);
+		drawString(50, 50, "Nowa gra", LCDBlack);
+		drawString(50, 100, "Zmien rozmiar", LCDBlack);
+		drawString(50, 150, "Najlepsze wyniki", LCDBlack);
 		break;
 		
 		default:
@@ -166,4 +200,17 @@ void drawSelectSize(void)
 		default:
 		break;
 	}
+}
+
+void drawLeaderboard(void)
+{
+	fillWindow(LCDWhite);
+	char buffer[16];
+	sprintf(buffer, "Najlepszy czas: %d s", LPC_RTC->GPREG);
+	writeString(buffer);
+	
+	drawRectangle(50, 50, 150, 50, LCDBlue);
+	drawRectangle(100, 150, 50, 20, LCDYellow);
+	drawString(50, 50, buffer, LCDBlack);
+	drawString(100, 150, "Wroc", LCDBlack);
 }
