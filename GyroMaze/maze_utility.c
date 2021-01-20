@@ -68,8 +68,8 @@ void drawCell(Cell cell, Position cellPosition, Position playerPosition, Positio
     {
         switch(cell.walls)
         {
-            case 0: printf("@"); break;
-            case 1: printf("@"); break;
+            case 0: printf("@ "); break;
+            case 1: printf("@|"); break;
             case 2: printf("@"); break;
             case 3: printf("@"); break;
         }

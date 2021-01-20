@@ -4,8 +4,12 @@
 void initPlayer(Player* playerPtr, Maze* mazePtr)
 {
     playerPtr->position = preparePosition(0, 0);
-    playerPtr->playerSign = 'P';
     playerPtr->mazePtr = mazePtr;
+}
+
+int isMazeSolved(Player* playerPtr)
+{
+    return ! (positionsCompare(playerPtr->position, playerPtr->mazePtr->destination));
 }
 
 Position getMoveVector(int moveDirection)

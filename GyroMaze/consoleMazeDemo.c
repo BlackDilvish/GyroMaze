@@ -30,12 +30,8 @@ int main(void)
     Position stackPositions[width * height];//ta tablica będzie działać jak stos do zapamiętywania ostatnio odwiedzonych pozycji
     Position visitedPositions[width * height];
 
-    for(int i = 0; i < width * height; ++i)
-    {
-        //cells[i].walls = 3;
-    }
+    fillCells(cells, cellsSize);
 
-    clearCells(cells, cellsSize);
     initPositions(positions, selected_width, selected_height);
 
     //wskaźniki do statycznie alokowanej pamięci
@@ -50,10 +46,10 @@ int main(void)
     generateMaze(mazePtr);
 
     mazeToFile(mazePtr);
-    printf("%d", getIndexFromPosition(mazePtr->destination, 30, 30));
+    // printf("%d", getIndexFromPosition(mazePtr->destination, 30, 30));
 
     //tutaj narysować tam gdzie są połączenia albo na odwrót
-    //drawMaze(mazePtr, playerPtr);
+    drawMaze(mazePtr, playerPtr);
 
     return 0;
 }

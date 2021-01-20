@@ -40,8 +40,7 @@ typedef struct MazeStruct
 } Maze;
 
 //funkcje
-
-void clearCells(Cell* cells, int size); //ustawia 00 na sciankach
+void fillCells(Cell* cells, int size); //ustawia 3 na sciankach
 Cell findCellByPosition(Maze* mazePtr, Position position);
 int hasRightBorder(Cell cell);
 int hasDownBorder(Cell cell);

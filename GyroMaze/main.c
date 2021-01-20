@@ -49,10 +49,8 @@ int main()
 	
 	drawMainMenu();
 	
-	    //to tylko dla testowania w konsoli
     int selected_width = 12;
     int selected_height = 16;
-    //to tylko dla testowania w konsoli
 
 		writeString("przed inicjalizacja");
 	
@@ -61,12 +59,11 @@ int main()
 		writeString("po inizjalizacji statycznej pamieci");
 
 
-    clearCells(cells, cellsSize);
+    fillCells(cells, cellsSize);
     initPositions(positions, selected_width, selected_height);
 		
 		writeString("po operacjach na komorkach i pozycjach");
 
-    //wskazniki do statycznie alokowanej pamieci
     Stack* stackPtr = &stack;
     Maze* mazePtr = &maze; 
     Player* playerPtr = &player;
@@ -82,7 +79,7 @@ int main()
 
     generateMaze(mazePtr);
 
-    //tutaj narysowac tam gdzie sa polaczenia albo na odwr�t
+    //tutaj narysowac tam gdzie sa polaczenia albo na odwrot
     //drawMaze(mazePtr, playerPtr);
 
 	while(true)
@@ -101,10 +98,20 @@ int main()
 
 			case GAME_STATE:
 			RTCounter = 0;
+				if(isMazeSolved(playerPtr)
+				{
+					appState = MAIN_MENU_STATE; //przenosimy do main menu
+					drawMainMenu();
+					/*if(RTCounter < LPC_RTC->GPREG0) //oby to było tak proste
+					{
+						//nowy najlepszy czas
+						LPC_RTC->GPREG0 = RTCounter;
+					}*/
+				}
 				drawMaze(mazePtr, 240, 320);
 				drawPlayer(playerPtr, 240, 320);
 			
-				switch(Joystick_GetState())
+				switch(Joystick_GetState()) //tutaj pewnie zmienimy na sterowanie żyroskopem
 				{
 					case JOYSTICK_UP:
 						if(checkIfCouldMove(MOVE_TOP, playerPtr))

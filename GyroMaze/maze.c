@@ -1,12 +1,13 @@
 #include "maze.h"
+#include <stdio.h>
 
 int counter = 0;
 
-void clearCells(Cell* cells, int size)
+void fillCells(Cell* cells, int size)
 {
     for(int i = 0; i < size; ++i)
     {
-        cells[i].walls = 0;
+        cells[i].walls = 3;
     }
 }
 
@@ -35,44 +36,32 @@ void generateMaze(Maze* mazePtr)
 {
     int visitedCounter = 1;
     mazePtr->visitedPositions[visitedCounter - 1] = mazePtr->positions[0];
-    int size = mazePtr->width * mazePtr->height;
-    int currentIndex = 0;
+    stackPush(mazePtr->stack, mazePtr->positions[0]);
 
-    while(visitedCounter < size)
+    while(!stackEmpty(mazePtr->stack))
     {
-        int potentialNeighborIndex = getUnvisitedNeighbor(mazePtr->positions[currentIndex], mazePtr->visitedPositions, visitedCounter,
-         mazePtr->width, mazePtr->height);
+        Position current = stackPop(mazePtr->stack);
 
-        if(potentialNeighborIndex > -1)
+        int index = getUnvisitedNeighbor(current, mazePtr->visitedPositions, visitedCounter, mazePtr->width, mazePtr->height);
+
+        if(index != -1)
         {
-            currentIndex = potentialNeighborIndex;
-            ++visitedCounter;
-            mazePtr->visitedPositions[visitedCounter - 1] = mazePtr->positions[currentIndex];
+            stackPush(mazePtr->stack, current);
+            Position next = getPositionFromIndex(index, mazePtr->width, mazePtr->height);
+
+            setWalls(mazePtr, current, next);
             
-            if(!stackEmpty(mazePtr->stack))
-            {
-                setWalls(mazePtr, mazePtr->stack->positions[mazePtr->stack->currentSize - 1], mazePtr->positions[currentIndex]);
-            }
-
-            stackPush(mazePtr->stack, mazePtr->positions[currentIndex]);
+            ++visitedCounter;
+            mazePtr->visitedPositions[visitedCounter - 1] = next;
+            stackPush(mazePtr->stack, next);
         }
-        else //nie mamy się gdzie ruszyć trzeba wrócić
-        {
-            Position previousPosition;
+    }
 
-            do
-            {
-                if(counter == 0)
-                {
-                    mazePtr->destination = getPositionFromIndex(currentIndex, mazePtr->width, mazePtr->height);
-                    counter = 1;
-                }
-                previousPosition = stackPop(mazePtr->stack);
-                int newIndex = getIndexFromPosition(previousPosition, mazePtr->width, mazePtr->height);
-                currentIndex = newIndex;
-            } while(getUnvisitedNeighbor(previousPosition, mazePtr->visitedPositions, visitedCounter,
-            mazePtr->width, mazePtr->height) == -1);            
-        }
+    mazePtr->destination = preparePosition(mazePtr->width - 1, mazePtr->height - 1);
+
+    for(int i = 0; i < mazePtr->width * mazePtr->height; ++i)
+    {
+        printf("(%d, %d)\n", mazePtr->visitedPositions[i].x, mazePtr->visitedPositions[i].y);
     }
 }
 
@@ -240,7 +229,7 @@ void setWalls(Maze* mazePtr, Position previousPosition, Position currentPosition
 {
     Position positionToSetWalls;
 
-    mazePtr->cells[0].walls = 0;
+    //mazePtr->cells[0].walls = 0;
 
     if(previousPosition.x == currentPosition.x)
     {
@@ -249,7 +238,9 @@ void setWalls(Maze* mazePtr, Position previousPosition, Position currentPosition
         else positionToSetWalls = currentPosition;
 
         int index = getIndexFromPosition(positionToSetWalls, mazePtr->width, mazePtr->height);
-        mazePtr->cells[index].walls += 2;
+        mazePtr->cells[index].walls -= 2;
+        if(mazePtr->cells[index].walls < 0)
+            mazePtr->cells[index].walls = 0;
     }
 
     else if(previousPosition.y == currentPosition.y)
@@ -259,7 +250,9 @@ void setWalls(Maze* mazePtr, Position previousPosition, Position currentPosition
         else positionToSetWalls = currentPosition;
 
         int index = getIndexFromPosition(positionToSetWalls, mazePtr->width, mazePtr->height);
-        mazePtr->cells[index].walls += 1;
+        mazePtr->cells[index].walls -= 1;
+        if(mazePtr->cells[index].walls < 0)
+            mazePtr->cells[index].walls = 0;
     }
 }
 
