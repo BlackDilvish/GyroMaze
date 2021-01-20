@@ -27,6 +27,9 @@ void drawMaze(Maze* mazePtr, int screenWidth, int screenHeight)
                 drawRectangle(currentWidth + 1, currentHeight + 1, moveWidth - 1, moveHeight - 1, LCDRed); //rysujemy mete
             }
 
+
+            drawRectangle(1, 1, moveWidth - 1, moveHeight - 1, LCDPastelBlue); //rysujemy start
+
             switch(wallNumber)
             {
                 case 1: drawLine(currentWidth + moveWidth, currentHeight, currentWidth + moveWidth, currentHeight + moveHeight, LCDWhite); 

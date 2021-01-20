@@ -16,6 +16,7 @@ typedef struct PlayerStruct {
 
 void initPlayer(Player* playerPtr, Maze* mazePtr);
 
+int isMazeSolved(Player* playerPtr);
 Position getMoveVector(int moveDirection);
 int checkIfCouldMove(int moveDirection, Player* player);
 void movePlayer(int moveDirection, Player* player);
