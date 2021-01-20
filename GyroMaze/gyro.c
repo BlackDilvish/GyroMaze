@@ -2,6 +2,10 @@
 #include "gyro.h"
 
 #include "graphics.h"
+
+uint8_t horizontalMoveDirection = 0;
+uint8_t verticalMoveDirection = 0;
+
 void initGyro()
 {
 	uint8_t data[2] = {0x20, 0x0F};
@@ -99,4 +103,19 @@ void getData(Coordinates* coords)
 	coords->y = y1 | y2;
 	coords->z = z1 | z2;
 	
-	}
+}
+
+void predictPlayerMove(Coordinates* coords)
+{
+	const uint8_t boundaryValue = 10000;
+
+	if(coords->y > boundaryValue && verticalMoveDirection < 1)
+		verticalMoveDirection += 1;
+	else if(coords->y < -boundaryValue && verticalMoveDirection > -1)
+		verticalMoveDirection -= 1;
+
+	if(coords->x > boundaryValue && horizontalMoveDirection < 1)
+		horizontalMoveDirection += 1;
+	else if(coords->x < -boundaryValue && horizontalMoveDirection > -1)
+		horizontalMoveDirection -= 1;
+}

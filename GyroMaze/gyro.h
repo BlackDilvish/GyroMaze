@@ -12,7 +12,12 @@ typedef struct
 	int16_t z;
 }Coordinates;
 
+extern uint8_t horizontalMoveDirection;
+extern uint8_t verticalMoveDirection;
+
 void initGyro();
 void getData(Coordinates* coords);
+
+void predictPlayerMove(Coordinates* coords);
 
 #endif

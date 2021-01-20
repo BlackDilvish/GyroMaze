@@ -113,28 +113,28 @@ int main()
 			
 				switch(Joystick_GetState()) //tutaj pewnie zmienimy na sterowanie żyroskopem
 				{
-					case JOYSTICK_UP:
+					case JOYSTICK_UP: //verticalMoveDirection == 1
 						if(checkIfCouldMove(MOVE_TOP, playerPtr))
 					movePlayer(MOVE_TOP, playerPtr);
 					writeString("JOYSTICK_UP");
 					BUTTON_DELAY;
 					break;
 					
-					case JOYSTICK_DOWN:
+					case JOYSTICK_DOWN: // verticalMoveDirection == -1
 						if(checkIfCouldMove(MOVE_DOWN, playerPtr))
 					movePlayer(MOVE_DOWN, playerPtr);
 					writeString("JOYSTICK_DOWN");
 					BUTTON_DELAY;
 					break;
 					
-					case JOYSTICK_LEFT:
+					case JOYSTICK_LEFT: // horizontalMoveDirection == 1
 					if(checkIfCouldMove(MOVE_LEFT, playerPtr))
 						movePlayer(MOVE_LEFT, playerPtr);
 					writeString("JOYSTICK_LEFT");
 					BUTTON_DELAY;
 					break;
 					
-					case JOYSTICK_RIGHT:
+					case JOYSTICK_RIGHT: // horizontalMoveDirection == -1
 						if(checkIfCouldMove(MOVE_RIGHT, playerPtr))
 						movePlayer(MOVE_RIGHT, playerPtr);
 						writeString("JOYSTICK_RIGHT");
@@ -145,6 +145,7 @@ int main()
 				
 			Coordinates coords;
 			getData(&coords);
+			predictPlayerMove(&coords);
 
 			char buffer[50];
 			sprintf(buffer, "x: %d, y: %d, z: %d", coords.x, coords.y, coords.z);
