@@ -1,5 +1,4 @@
 #include "maze.h"
-#include <stdio.h>
 
 int counter = 0;
 
@@ -37,17 +36,20 @@ void generateMaze(Maze* mazePtr)
     int visitedCounter = 1;
     mazePtr->visitedPositions[visitedCounter - 1] = mazePtr->positions[0];
     stackPush(mazePtr->stack, mazePtr->positions[0]);
+		Position current;
+		int index;
+		Position next;
 
     while(!stackEmpty(mazePtr->stack))
     {
-        Position current = stackPop(mazePtr->stack);
+        current = stackPop(mazePtr->stack);
 
-        int index = getUnvisitedNeighbor(current, mazePtr->visitedPositions, visitedCounter, mazePtr->width, mazePtr->height);
+        index = getUnvisitedNeighbor(current, mazePtr->visitedPositions, visitedCounter, mazePtr->width, mazePtr->height);
 
         if(index != -1)
         {
             stackPush(mazePtr->stack, current);
-            Position next = getPositionFromIndex(index, mazePtr->width, mazePtr->height);
+            next = getPositionFromIndex(index, mazePtr->width, mazePtr->height);
 
             setWalls(mazePtr, current, next);
             
@@ -58,11 +60,6 @@ void generateMaze(Maze* mazePtr)
     }
 
     mazePtr->destination = preparePosition(mazePtr->width - 1, mazePtr->height - 1);
-
-    for(int i = 0; i < mazePtr->width * mazePtr->height; ++i)
-    {
-        printf("(%d, %d)\n", mazePtr->visitedPositions[i].x, mazePtr->visitedPositions[i].y);
-    }
 }
 
 void initStack(Stack* stackPtr, Position* stackPositions, int size)

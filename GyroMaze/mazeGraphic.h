@@ -7,5 +7,6 @@
 
 void drawMaze(Maze* mazePtr, int screenWidth, int screenHeight);
 void drawPlayer(Player* playerPtr, int screenWidth, int screenHeight);
+void cleanPlayer(Position pos, Maze* mazePtr, int screenWidth, int screenHeight);
 
 #endif

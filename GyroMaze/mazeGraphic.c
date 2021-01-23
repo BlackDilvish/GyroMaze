@@ -52,5 +52,18 @@ void drawPlayer(Player* playerPtr, int screenWidth, int screenHeight)
     int x = playerPtr->position.x * moveWidth;
     int y = playerPtr->position.y * moveHeight;
 
-    drawRectangle(x, y, moveWidth - 1, moveHeight - 1, LCDGreen);
+    drawRectangle(x + 4, y + 4, moveWidth - 4, moveHeight - 4, LCDGreen);
+}
+
+void cleanPlayer(Position pos, Maze* mazePtr, int screenWidth, int screenHeight)
+{
+	int moveWidth = screenWidth / mazePtr->width; //chyba musi byc int
+  int moveHeight = screenHeight / mazePtr->height; //chyba musi byc int
+	
+	if(positionsCompare(pos, mazePtr->start) != 0)
+	{
+		drawRectangle(pos.x * moveWidth + 4, pos.y * moveHeight + 4, moveWidth - 4, moveHeight - 4, LCDBlack);
+	}
+	
+	else drawRectangle(1, 1, moveWidth - 1, moveHeight - 1, LCDPastelBlue); //rysujemy start
 }

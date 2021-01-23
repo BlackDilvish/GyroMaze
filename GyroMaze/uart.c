@@ -51,11 +51,6 @@ void initTimer0()
 	NVIC_EnableIRQ(TIMER0_IRQn);
 }
 
-void TIMER0_IRQHandler()
-{
-	LPC_TIM0->IR = 1;
-	writeString("Ping");
-}
 
 void initRTC()
 {
@@ -66,8 +61,3 @@ void initRTC()
 	NVIC_EnableIRQ(RTC_IRQn);
 }
 
-void RTC_IRQHandler()
-{
-	LPC_RTC->ILR = 1;
-	writeString("Pong");
-}

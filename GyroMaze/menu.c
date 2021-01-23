@@ -7,8 +7,8 @@
 int8_t appState = 0;
 int8_t verticalKeyCounter = 0;
 int8_t horizontalKeyCounter = 0;
-int8_t maze_width = 0;
-int8_t maze_height = 0;
+int8_t maze_width = 10;
+int8_t maze_height = 10;
 
 void updateMainMenu(void)
 {
@@ -205,8 +205,8 @@ void drawSelectSize(void)
 void drawLeaderboard(void)
 {
 	fillWindow(LCDWhite);
-	char buffer[16];
-	sprintf(buffer, "Najlepszy czas: %d s", LPC_RTC->GPREG);
+	char buffer[32];
+	sprintf(buffer, "Najlepszy czas: %d s", LPC_RTC->GPREG0);
 	writeString(buffer);
 	
 	drawRectangle(50, 50, 150, 50, LCDBlue);

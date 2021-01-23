@@ -23,11 +23,34 @@ Position positions[width * height];
 Position stackPositions[width * height];//ta tablica bedzie dzialac jak stos do zapamietywania ostatnio odwiedzonych pozycji
 Position visitedPositions[width * height];
 
-int RTCounter = 0;
+int global_x = 0;
+int global_y = 0;
+int global_z = 0;
+
+volatile uint8_t RTCounter = 0;
 void RTC_IRQHandler()
 {
 	LPC_RTC->ILR = 1;
-	RTCounter++;
+	if(appState == GAME_STATE)
+		RTCounter++;
+}
+
+uint8_t systick_counter = 0;
+void SysTick_Handler(void) 
+{
+	if(systick_counter > 6)
+	{
+		systick_counter = 0;
+	}
+	else
+	{
+		systick_counter++;
+	}
+}
+
+uint32_t abs0(int val)
+{
+	return val > 0 ? val : -val;
 }
 
 int main()
@@ -38,25 +61,19 @@ int main()
 	fillWindow(LCDWhite);
 	I2CInit();
 	initGyro();
+	SysTick_Config(1e7);
 	
-	//init RTC
-	LPC_RTC->CCR = 1;
-	LPC_RTC->ILR = 1;
-	LPC_RTC->CIIR = 1;
-	NVIC_EnableIRQ(RTC_IRQn); //co sekunde
+	//LPC_RTC->GPREG0 = 1e7;
 	
-	writeString("asdasdsadasd");
+	initRTC();
 	
 	drawMainMenu();
 	
     int selected_width = 12;
-    int selected_height = 16;
-
-		writeString("przed inicjalizacja");
+    int selected_height = 12;
+		int inited = 0;
 	
     int cellsSize = width * height;
-		
-		writeString("po inizjalizacji statycznej pamieci");
 
 
     fillCells(cells, cellsSize);
@@ -80,90 +97,174 @@ int main()
     generateMaze(mazePtr);
 
     //tutaj narysowac tam gdzie sa polaczenia albo na odwrot
-    //drawMaze(mazePtr, playerPtr);
+    //drawMaze(mazePtr, 240, 320);
 
 	while(true)
 	{
+		if(systick_counter != 6)
+			continue;
+		
 		switch(appState)
 		{
 			case MAIN_MENU_STATE:
 			updateMainMenu();
-			writeString("MAIN_MENU_STATE");
 			break;
 
 			case SELECT_SIZE_STATE:
 			updateSelectSize();
-			writeString("SELECT_SIZE_STATE");
 			break;
 
 			case GAME_STATE:
-			RTCounter = 0;
-				if(isMazeSolved(playerPtr)
+			if(!inited)
+			{
+				fillCells(cells, cellsSize);
+				initPositions(positions, maze_width, maze_height);
+				initMaze(mazePtr, cells, visitedPositions, positions, stackPtr, maze_width, maze_height);
+				generateMaze(mazePtr);
+				initPlayer(playerPtr, mazePtr);
+				RTCounter = 0;
+				inited = 1;
+				drawMaze(mazePtr, 240, 320);
+				horizontalMoveDirection = 0;
+				verticalMoveDirection = 0;
+			}
+			
+				if(isMazeSolved(playerPtr))
 				{
 					appState = MAIN_MENU_STATE; //przenosimy do main menu
 					drawMainMenu();
-					/*if(RTCounter < LPC_RTC->GPREG0) //oby to było tak proste
+					inited = 0;
+					if(RTCounter < LPC_RTC->GPREG0) //oby to było tak proste
 					{
 						//nowy najlepszy czas
 						LPC_RTC->GPREG0 = RTCounter;
-					}*/
+					}
 				}
-				drawMaze(mazePtr, 240, 320);
-				drawPlayer(playerPtr, 240, 320);
+				else
+				{
+					drawPlayer(playerPtr, 240, 320);
+				}	
 			
 				switch(Joystick_GetState()) //tutaj pewnie zmienimy na sterowanie żyroskopem
 				{
 					case JOYSTICK_UP: //verticalMoveDirection == 1
-						if(checkIfCouldMove(MOVE_TOP, playerPtr))
-					movePlayer(MOVE_TOP, playerPtr);
+					if(checkIfCouldMove(MOVE_TOP, playerPtr))
+					{
+						cleanPlayer(playerPtr->position, mazePtr, 240, 320);
+						movePlayer(MOVE_TOP, playerPtr);
+					}
 					writeString("JOYSTICK_UP");
 					BUTTON_DELAY;
 					break;
 					
 					case JOYSTICK_DOWN: // verticalMoveDirection == -1
-						if(checkIfCouldMove(MOVE_DOWN, playerPtr))
-					movePlayer(MOVE_DOWN, playerPtr);
+					if(checkIfCouldMove(MOVE_DOWN, playerPtr))
+					{
+						cleanPlayer(playerPtr->position, mazePtr, 240, 320);
+						movePlayer(MOVE_DOWN, playerPtr);
+					}
 					writeString("JOYSTICK_DOWN");
 					BUTTON_DELAY;
 					break;
 					
 					case JOYSTICK_LEFT: // horizontalMoveDirection == 1
 					if(checkIfCouldMove(MOVE_LEFT, playerPtr))
+					{
+						cleanPlayer(playerPtr->position, mazePtr, 240, 320);
 						movePlayer(MOVE_LEFT, playerPtr);
+					}
 					writeString("JOYSTICK_LEFT");
 					BUTTON_DELAY;
 					break;
 					
 					case JOYSTICK_RIGHT: // horizontalMoveDirection == -1
-						if(checkIfCouldMove(MOVE_RIGHT, playerPtr))
+					if(checkIfCouldMove(MOVE_RIGHT, playerPtr))
+					{
+						cleanPlayer(playerPtr->position, mazePtr, 240, 320);						
 						movePlayer(MOVE_RIGHT, playerPtr);
+					}
 						writeString("JOYSTICK_RIGHT");
 					BUTTON_DELAY;
 					break;
 				}
+
 			{
 				
 			Coordinates coords;
 			getData(&coords);
-			predictPlayerMove(&coords);
 
 			char buffer[50];
-			sprintf(buffer, "x: %d, y: %d, z: %d", coords.x, coords.y, coords.z);
+			sprintf(buffer, "x: %d, y: %d, z: %d", abs0(coords.x) > 10000 ? coords.x : 0, abs0(coords.y) > 10000 ? coords.y : 0, abs0(coords.z) > 10000 ? coords.z : 0);
 			writeString(buffer);
+				
+			if(coords.y > 1000)
+				global_y++;
+			else if(coords.y < -1000)
+				global_y--;
+			
+			if(coords.z > 1000)
+				global_z++;
+			else if(coords.z < -1000)
+				global_z--;
+				
+			sprintf(buffer,"gy: %d, gz: %d", global_y, global_z);
+			writeString(buffer);
+			
+			if(global_y > 0)
+			{
+				if(checkIfCouldMove(MOVE_TOP, playerPtr))
+					{
+						cleanPlayer(playerPtr->position, mazePtr, 240, 320);
+						movePlayer(MOVE_TOP, playerPtr);
+					}
+					writeString("GYRO_UP");
+					BUTTON_DELAY;
 			}
+			else
+			{
+				if(checkIfCouldMove(MOVE_DOWN, playerPtr))
+					{
+						cleanPlayer(playerPtr->position, mazePtr, 240, 320);
+						movePlayer(MOVE_DOWN, playerPtr);
+					}
+					writeString("GYRO_DOWN");
+					BUTTON_DELAY;
+			}
+			
+			if(global_z > 0)
+			{
+				if(checkIfCouldMove(MOVE_LEFT, playerPtr))
+					{
+						cleanPlayer(playerPtr->position, mazePtr, 240, 320);
+						movePlayer(MOVE_LEFT, playerPtr);
+					}
+					writeString("GYRO_LEFT");
+					BUTTON_DELAY;
+			}
+			else
+			{
+				if(checkIfCouldMove(MOVE_RIGHT, playerPtr))
+					{
+						cleanPlayer(playerPtr->position, mazePtr, 240, 320);						
+						movePlayer(MOVE_RIGHT, playerPtr);
+					}
+						writeString("JOYSTICK_RIGHT");
+					BUTTON_DELAY;
+			}
+			
+			}
+			
+			
+				
 			
 			break;
 			
 			case LEADERBOARD_STATE:
 			updateLeaderboard();
-			printf("LEADERBOARD_STATE\n");
 			break;
 
 			default:
 			break;
 		}
-					
-
-		for(int i=0; i<10000000; i++); //fancy delay
 	}
 }
