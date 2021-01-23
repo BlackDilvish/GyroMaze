@@ -20,21 +20,8 @@ volatile uint8_t SLA_INIT = 0;
 
 void I2CInit()    
 {   
-	//LPC_SC->PCONP = 1 << 7; //w sumie zbedne
-	//LPC_SC->PCLKSEL0 = 1 << 14; //pclk = cclk
-	 
 	PIN_Configure(0, 27, 1, PIN_PINMODE_TRISTATE, PIN_PINMODE_OPENDRAIN);
 	PIN_Configure(0, 28, 1, PIN_PINMODE_TRISTATE, PIN_PINMODE_OPENDRAIN);
-	/*LPC_GPIO0->FIODIR |= 1<<10;	//Bit P0.10 an output
-	LPC_GPIO0->FIODIR |= 1<<11;	//Bit P0.11 an output
-	LPC_PINCON->PINMODE0 &= ~(3<<20);	 
-	LPC_PINCON->PINMODE0 |= (2<<20);	//P0.10 has no pull up/down resistor
-	LPC_PINCON->PINMODE0 &= ~(3<<22);	 
-	LPC_PINCON->PINMODE0 |= (2<<22);	//P0.10 has no pull up/down resistor
-	LPC_PINCON->PINMODE_OD0 |= 1<<10;	//Bit P0.10 is open drain
-	LPC_PINCON->PINMODE_OD0 |= 1<<11;	//Bit P0.11 is open drain
-	LPC_PINCON->PINSEL1 &= ~0x03C00000;   //PIO0.27=SDA 01 //22bit
-	LPC_PINCON->PINSEL1 |= 0x01400000;      //PIO0.28=SCK 01 //24bit*/
 
 	LPC_I2C0->I2SCLH = 125; //100kHz from 100MHz
 	LPC_I2C0->I2SCLL = 125; //100kHz from 100MHz	  

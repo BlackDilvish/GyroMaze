@@ -47,59 +47,6 @@ void getData(Coordinates* coords)
 	coords->x = data[1]<<8 | data[0];
 	coords->y = data[3]<<8 | data[2];
 	coords->z = data[5]<<8 | data[4];
-
-/*	uint8_t addr[1] = {0x28};
-	startMasterTransmit(addr, 1);
-	I2C_WAIT;
-	startMasterReceive(1);
-	I2C_WAIT;
-	volatile int8_t* data = getReceivedData();
-	int x1 = data[0];
-	
-	addr[0] = 0x29;
-	startMasterTransmit(addr, 1);
-	I2C_WAIT;
-	startMasterReceive(1);
-	I2C_WAIT;
-	data = getReceivedData();
-	int x2 = data[0] << 8;
-	
-	addr[0] = 0x2A;
-	startMasterTransmit(addr, 1);
-	I2C_WAIT;
-	startMasterReceive(1);
-	I2C_WAIT;
-	data = getReceivedData();
-	int y1 = data[0];
-	
-	addr[0] = 0x2B;
-	startMasterTransmit(addr, 1);
-	I2C_WAIT;
-	startMasterReceive(1);
-	I2C_WAIT;
-	data = getReceivedData();
-	int y2 = data[0] << 8;
-	
-	addr[0] = 0x2C;
-	startMasterTransmit(addr, 1);
-	I2C_WAIT;
-	startMasterReceive(1);
-	I2C_WAIT;
-	data = getReceivedData();
-	int z1 = data[0];
-	
-	addr[0] = 0x2D;
-	startMasterTransmit(addr, 1);
-	I2C_WAIT;
-	startMasterReceive(1);
-	I2C_WAIT;
-	data = getReceivedData();
-	int z2 = data[0] << 8;
-	
-	coords->x = x1 | x2;
-	coords->y = y1 | y2;
-	coords->z = z1 | z2;*/
-	
 }
 
 void predictPlayerMove(Coordinates* coords)

@@ -71,33 +71,22 @@ int main()
 	
     int selected_width = 12;
     int selected_height = 12;
-		int inited = 0;
-	
+	int inited = 0;
     int cellsSize = width * height;
 
 
     fillCells(cells, cellsSize);
     initPositions(positions, selected_width, selected_height);
-		
-		writeString("po operacjach na komorkach i pozycjach");
 
     Stack* stackPtr = &stack;
     Maze* mazePtr = &maze; 
     Player* playerPtr = &player;
 
-		writeString("wskazniki do pamieci");
-
     initStack(stackPtr, stackPositions, cellsSize);
     initMaze(mazePtr, cells, visitedPositions, positions, stackPtr, selected_width, selected_height);
     initPlayer(playerPtr, mazePtr);
-		
-		writeString("inicjalizacja stosu, mazea itp.");
-
 
     generateMaze(mazePtr);
-
-    //tutaj narysowac tam gdzie sa polaczenia albo na odwrot
-    //drawMaze(mazePtr, 240, 320);
 
 	while(true)
 	{
@@ -134,7 +123,7 @@ int main()
 					appState = MAIN_MENU_STATE; //przenosimy do main menu
 					drawMainMenu();
 					inited = 0;
-					if(RTCounter < LPC_RTC->GPREG0) //oby to było tak proste
+					if(RTCounter < LPC_RTC->GPREG0)
 					{
 						//nowy najlepszy czas
 						LPC_RTC->GPREG0 = RTCounter;
@@ -145,9 +134,9 @@ int main()
 					drawPlayer(playerPtr, 240, 320);
 				}	
 			
-				switch(Joystick_GetState()) //tutaj pewnie zmienimy na sterowanie żyroskopem
+				switch(Joystick_GetState())
 				{
-					case JOYSTICK_UP: //verticalMoveDirection == 1
+					case JOYSTICK_UP:
 					if(checkIfCouldMove(MOVE_TOP, playerPtr))
 					{
 						cleanPlayer(playerPtr->position, mazePtr, 240, 320);
@@ -157,7 +146,7 @@ int main()
 					BUTTON_DELAY;
 					break;
 					
-					case JOYSTICK_DOWN: // verticalMoveDirection == -1
+					case JOYSTICK_DOWN:
 					if(checkIfCouldMove(MOVE_DOWN, playerPtr))
 					{
 						cleanPlayer(playerPtr->position, mazePtr, 240, 320);
@@ -167,7 +156,7 @@ int main()
 					BUTTON_DELAY;
 					break;
 					
-					case JOYSTICK_LEFT: // horizontalMoveDirection == 1
+					case JOYSTICK_LEFT:
 					if(checkIfCouldMove(MOVE_LEFT, playerPtr))
 					{
 						cleanPlayer(playerPtr->position, mazePtr, 240, 320);
@@ -177,7 +166,7 @@ int main()
 					BUTTON_DELAY;
 					break;
 					
-					case JOYSTICK_RIGHT: // horizontalMoveDirection == -1
+					case JOYSTICK_RIGHT:
 					if(checkIfCouldMove(MOVE_RIGHT, playerPtr))
 					{
 						cleanPlayer(playerPtr->position, mazePtr, 240, 320);						
@@ -251,12 +240,7 @@ int main()
 						writeString("JOYSTICK_RIGHT");
 					BUTTON_DELAY;
 			}
-			
 			}
-			
-			
-				
-			
 			break;
 			
 			case LEADERBOARD_STATE:

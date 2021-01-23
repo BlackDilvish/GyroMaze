@@ -17,19 +17,16 @@ void updateMainMenu(void)
 		case JOYSTICK_UP:
 		if(--verticalKeyCounter < 0) verticalKeyCounter = 0;
 		drawMainMenu();
-		writeString("JOYSTICK_UP");
 		BUTTON_DELAY;
 		break;
 		
 		case JOYSTICK_DOWN:
 		if (++verticalKeyCounter > 2) verticalKeyCounter = 2;
 		drawMainMenu();
-		writeString("JOYSTICK_DOWN");
 		BUTTON_DELAY;
 		break;
 		
 		case JOYSTICK_CENTER:
-		writeString("JOYSTICK_CENTER");
 		if (verticalKeyCounter == 0)
 		{
 			appState = GAME_STATE;
